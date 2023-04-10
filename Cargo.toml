@@ -1,0 +1,33 @@
+[package]
+name = "latency"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+embassy-sync = { version = "0.1.0", git = "https://github.com/embassy-rs/embassy.git", features = ["defmt"] } # "turbowakers"
+embassy-executor = { version = "0.1.0", git = "https://github.com/embassy-rs/embassy.git", features = ["defmt", "executor-thread", "executor-interrupt", "arch-cortex-m"] } 
+embassy-time = { version = "0.1.0", git = "https://github.com/embassy-rs/embassy.git", features =  ["defmt", "defmt-timestamp-uptime", "unstable-traits", "generic-queue"] }
+embassy-stm32 = { version = "0.1.0", git = "https://github.com/embassy-rs/embassy.git", features = ["nightly", "unstable-traits", "defmt", "stm32f411ce", "unstable-pac", "memory-x", "time-driver-any", "exti"]  }
+
+defmt = "=0.3.2"
+defmt-rtt = "0.4"
+
+cortex-m = { version = "0.7.6", features = ["critical-section-single-core"] }
+cortex-m-rt = "0.7.0"
+embedded-hal = "0.2.6"
+embedded-io = "0.4.0"
+panic-probe = { version = "0.3", features = ["print-defmt"] }
+futures = { version = "0.3.17", default-features = false, features = ["async-await"] }
+static_cell = "1.0"
+
+# cargo build/run --release
+[profile.release]
+codegen-units = 1
+debug = 2
+debug-assertions = false # <-
+incremental = false
+lto = 'fat'
+opt-level = "s" # <-
+overflow-checks = false # <-
